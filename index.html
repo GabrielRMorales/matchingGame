@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<style type="text/css">
+		.card {
+			height: 100px;
+			width: 100px;
+			display: inline-block;
+			border: solid 1px black;
+		}
+	</style>
+</head>
+<body>
+	<div class="card" id="1"></div>
+	<div class="card" id="2"></div>
+	<div class="card" id="3"></div>
+	<div class="card" id="4"></div>
+	<div class="card" id="5"></div>
+	<div class="card" id="6"></div>
+	<script type="text/javascript">
+			
+		//visible card count
+		let visibleCards=0;
+		let visibleCardList=[];
+		//eventListener
+		const compareCards=function(){
+				let elOne=document.getElementById(visibleCardList[0]),
+					elTwo=document.getElementById(visibleCardList[1]);
+					console.log("ELEMENT ONE: "+elOne);
+					console.log("EL TWO: "+ elTwo);
+					//if 2 cards are visible and both are the same, delete them
+						if (elOne.style.backgroundColor===elTwo.style.backgroundColor){
+							elOne.parentNode.removeChild(elOne);
+							elTwo.parentNode.removeChild(elTwo);
+						}
+					//else if 2 cards are visible and different, make them invisible
+						else {
+							elOne.style.backgroundColor="white";
+							elTwo.style.backgroundColor="white";
+						}
+					visibleCards=0;
+					visibleCardList=[];
+				}	
+
+		const showCards=function(){
+				if (visibleCards<2){
+					console.log(this.classList);
+					this.style.backgroundColor=this.classList[1];
+					visibleCards++;
+					visibleCardList.push(this.id);
+					console.log(visibleCardList);
+					if (visibleCardList.length===2){
+						setTimeout(compareCards, 3000);
+					}					
+				}
+			};
+
+		//randomly assign each card a number
+		//Paul, figure out how to randomly assign the numbers
+		//based on number, make each card a color (but not visible)
+		let cards=document.querySelectorAll("div");
+		const colors=["green", "blue", "red"];
+		for (let i=0;i<6;i++){
+			if (cards[i].id==="1" || cards[i].id==="4"){
+				cards[i].classList.add("green")
+			}
+			else if (cards[i].id==="2" || cards[i].id==="6"){
+				cards[i].classList.add("blue");
+			}
+			else {
+				cards[i].classList.add("red");
+			}
+			//add event listener so that each click, as long as no more than 1 card is visible, show a card color
+			cards[i].addEventListener("click", showCards);
+		}
+	</script>
+</body>
+
+</html>
