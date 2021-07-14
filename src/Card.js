@@ -1,10 +1,12 @@
 import React from "react";
 
-const Card = ({id})=>{
+const Card = ({id, color, onClick: clickEvent, status})=>{
     let myStyle = {
-        backgroundColor: "gray"
+        backgroundColor: status == 1 ? color : "gray"
     };
-    return (<div role="card" data-testid={`card-${id+1}`} style={myStyle} > 
+    return (<div role="card" data-testid={`card-${id}`} style={myStyle} onClick={(e)=>{        
+        clickEvent(id);
+    }}> 
     </div>);
 };
 

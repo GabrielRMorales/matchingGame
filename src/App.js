@@ -1,16 +1,9 @@
 import './App.css';
-import Card from "./Card";
+import CardContainer from "./CardContainer";
 
 function App() {
-  let arr = Array
-  const cards = Array(6).fill().map((val, index)=>{
-    return <Card key={index} id={index} />;
-  });
-  return (
-    <div className="App">
-     {cards}
-    </div>
-  );
+  
+  return (<CardContainer />);
 }
 
 export default App;
