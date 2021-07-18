@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Card from "./Card";
+import NewGameButton from "./NewGameButton";
 
 let colors = ["red","green","blue","red","green","blue"];
 
@@ -12,7 +13,8 @@ class CardContainer extends Component {
                 state: 0
             }))
         }
-        this.handleClick= this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleNewGame = this.handleNewGame.bind(this);
     }
     handleClick(id){
         let stateOneCards = this.state.cards.filter(card=>{
@@ -34,8 +36,9 @@ class CardContainer extends Component {
     //if one other card has state of 1
         else if (stateOneCards.length==1){
             //compare
-          
-            if (this.state.cards[id].color!==stateOneCards[0].color){
+            let firstColor = this.state.cards[id].color;
+            let secondColor = stateOneCards[0].color;
+            if (firstColor!==secondColor){
                 console.log(this.state.cards);
                 let newState = this.state.cards.map((card,index)=>{
                     if (index==id){
@@ -59,10 +62,27 @@ class CardContainer extends Component {
                 }, 1500);
             });               
                
+            } else if (firstColor==secondColor){
+                let newState = this.state.cards.map((card, index)=>{
+                    if (index == id || card.state == 1){
+                        return Object.assign({}, {color: card.color, state: 2});
+                    }
+                    return card;
+                })
+                this.setState({cards: newState});
             }
 
         }
          
+    }
+
+    handleNewGame(){
+        let newGameState = this.state.cards.map(card=>{
+            return Object.assign({}, card, {state: 0});
+        })
+        this.setState({
+            cards: newGameState
+        });
     }
 
   render(){
@@ -71,6 +91,7 @@ class CardContainer extends Component {
     });
       return (
     <div>
+    <NewGameButton onClick={this.handleNewGame} />
      {cards}
     </div>
   );

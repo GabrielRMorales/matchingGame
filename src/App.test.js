@@ -61,21 +61,72 @@ describe("the card click events", ()=>{
     expect(cardThree).toHaveStyle({"background-color": "gray"});
   })
 
-  /*test when two of same colored cards are clicekd
   it("sets a pair of cards to stay shown if their colors match",async ()=>{
     let cardOne=screen.getByTestId("card-0");
     let cardFour=screen.getByTestId("card-3");
-    expect(cardOne).toHaveStyle()
+    expect(cardOne).toHaveStyle({"background-color": "gray"});
     userEvent.click(cardOne);
-    expect(cardOne).toHaveStyle({"background-color": ""});
+    expect(cardOne).toHaveStyle({"background-color": "red"});
+    expect(cardFour).toHaveStyle({"background-color": "gray"});
     userEvent.click(cardFour);
-    expect(cardFour).toHaveStyle({"background-color": ""});
-    await Promise(resolve=>setTimeout(resolve,1500));
-    expect(cardOne).toHaveStyle({"background-color": ""});
+    expect(cardFour).toHaveStyle({"background-color": "red"});
+    await new Promise(resolve=>setTimeout(resolve,1500));
+    expect(cardOne).toHaveStyle({"background-color": "red"});
+    expect(cardFour).toHaveStyle({"background-color": "red"});
 
 
   });
- */
   //test that cards aren't clickable after 2
+  it("allows only two cards to be flipped at one time",()=>{
+    let cardOne = screen.getByTestId("card-0"),
+    cardTwo = screen.getByTestId("card-1"),
+    cardThree = screen.getByTestId("card-2");
+    userEvent.click(cardOne);
+    userEvent.click(cardTwo);
+    userEvent.click(cardThree);
+    expect(cardOne).toHaveStyle({"background-color": "red"});
+    expect(cardTwo).toHaveStyle({"background-color": "green"});
+    expect(cardThree).toHaveStyle({"background-color": "gray"});
+
+  });
+
+  it("allows another card to be clicked after two cards have been matched",()=>{
+    let cardOne = screen.getByTestId("card-2");
+    let cardTwo= screen.getByTestId("card-5");
+    let cardThree = screen.getByTestId("card-1");
+    userEvent.click(cardOne);
+    userEvent.click(cardTwo);
+    userEvent.click(cardThree);
+    expect(cardOne).toHaveStyle({"background-color": "blue"});
+    expect(cardTwo).toHaveStyle({"background-color": "blue"});
+    expect(cardThree).toHaveStyle({"background-color": "green"});
+    
+  });
+
+  it("has a new game button", ()=>{
+    let btn = screen.queryByRole("new-game-btn");
+    expect(btn).toBeInTheDocument();
+  });
+
+  describe("the new game button", ()=>{
+    //test that new game button sets all colors to gray
+    it("changes all cards to gray",()=>{
+      let cardOne = screen.getByTestId("card-2"),
+      cardTwo = screen.getByTestId("card-5"),
+      newGameBtn = screen.getByRole("new-game-btn");
+      userEvent.click(cardOne);
+      userEvent.click(cardTwo);
+      userEvent.click(newGameBtn);
+      expect(cardOne).toHaveStyle({"background-color": "gray"});
+      expect(cardTwo).toHaveStyle({"background-color": "gray"});
+
+    });
+
+    /*it("shuffles the cards",()=>{
+
+    });*/
+  });
+
+  
 
 });
